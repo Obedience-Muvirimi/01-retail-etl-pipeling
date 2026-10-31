@@ -1,0 +1,14 @@
+order_id,order_date,customer_id,product,category,quantity,unit_price,city
+1001,2026-10-25,C001,Laptop,Electronics,2,8500.00,Cape Town
+1002,2026-10-25,C002,Mouse,Accessories,3,250.00,Johannesburg
+1003,2026-10-26,C003,Keyboard,Accessories,1,450.00,Durban
+1004,2026-10-26,C004,Monitor,Electronics,2,3200.00,Pretoria
+1005,2026-10-27,C005,Headphones,Accessories,2,750.00,Cape Town
+1006,2026-10-27,C006,Printer,Electronics,1,2100.00,Johannesburg
+1007,2026-10-28,C007,USB Cable,Accessories,5,80.00,Durban
+1008,2026-10-28,C008,Tablet,Electronics,1,4500.00,Pretoria
+1009,2026-10-29,C009,Mouse,Accessories,2,250.00,Cape Town
+1010,2026-10-29,C010,Laptop,Electronics,1,8500.00,Johannesburg
+1011,2026-10-30,,Keyboard,Accessories,2,450.00,Durban
+1012,2026-10-30,C012,Monitor,Electronics,-1,3200.00,Pretoria
+1002,2026-10-25,C002,Mouse,Accessories,3,250.00,Johannesburg
