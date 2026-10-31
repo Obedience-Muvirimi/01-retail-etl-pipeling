@@ -40,7 +40,7 @@ def validate_record(record):
 
         if unit_price <- 0:
             errors.append(
-                "Unit price must be grater than zero"
+                "Unit price must be greater than zero"
             )
     except ValueError:
         errors.append("Unit price must be a valid number")
@@ -65,7 +65,7 @@ def is_duplicate(record, seen_records):
     """
 
     #Convert the record into a hashable tuple
-    record_key = tuple(record.items())
+    record_key = tuple(sorted(record.items()))
 
     if record_key in seen_records:
         return True
@@ -73,3 +73,33 @@ def is_duplicate(record, seen_records):
     seen_records.add(record_key)
 
     return False
+
+def transform_sales_data(records):
+    """
+    Validate and transform all extracted sales records.
+    Separate valid records from rejected records.
+    """
+
+    valid_records = []
+    rejected_records = []
+    seen_records = set()
+
+    for record in records:
+
+        #Collect validation errors
+        errors = validate_record(record)
+
+        #Check for exact duplicates
+        if is_duplicate(record, seen_records):
+            errors.append("Duplicate record detected")
+
+        #Classify the record
+        if errors:
+            rejected_records.append({
+                "record": record,
+                "rejection_reasons": errors
+            })
+        else:
+            valid_records.append(record)
+
+    return valid_records, rejected_records

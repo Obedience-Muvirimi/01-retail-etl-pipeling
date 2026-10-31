@@ -1,0 +1,4 @@
+order_id,order_date,customer_id,product,category,quantity,unit_price,city,rejection_reasons
+1011,2026-10-30,,Keyboard,Accessories,2,450.00,Durban,Missing customer_id
+1012,2026-10-30,C012,Monitor,Electronics,-1,3200.00,Pretoria,Quantity must be greater than zero
+1002,2026-10-25,C002,Mouse,Accessories,3,250.00,Johannesburg,Duplicate record detected
