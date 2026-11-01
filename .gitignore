@@ -1,0 +1,18 @@
+# Python virtual environment
+.venv/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+
+# Pytest cache
+.pytest_cache/
+
+# Environment variables and secrets
+.env
+
+# Runtime logs
+logs/
+
+# Generated processed data
+data/processed/

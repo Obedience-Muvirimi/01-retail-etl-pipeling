@@ -1,6 +1,33 @@
 from datetime import datetime
 
 
+def standardise_date(date_value):
+    """
+    Accept approved date formats and return YYYY-MM-DD.
+    """
+
+    accepted_formats = [
+        "%Y-%m-%d",
+        "%d/%m/%Y"
+    ]
+
+    for date_format in accepted_formats:
+        try:
+            parsed_date = datetime.strptime(
+                date_value.strip(),
+                date_format
+            )
+
+            return parsed_date.strftime("%Y-%m-%d")
+
+        except ValueError:
+            continue
+
+    raise ValueError(
+        f"Unsupported date format: {date_value}"
+    )
+
+
 def validate_record(record):
     """
     Validate one sales record and collect all errors.
@@ -47,14 +74,11 @@ def validate_record(record):
 
     #Validate order date
     try:
-        datetime.strptime(
-            record["order_date"],
-            "%Y-%m-%d"
-        )
+        standardise_date(record["order_date"])
 
     except ValueError:
         errors.append(
-            "Order date must be a valid date in YYYY-MM-DD format"
+            "Order date must be a valid and use an approved format"
         )
 
     return errors
@@ -94,12 +118,19 @@ def transform_sales_data(records):
             errors.append("Duplicate record detected")
 
         #Classify the record
-        if errors:
+        transformed_record = record.copy()
+
+        if not errors:
+            transformed_record["order_date"] = standardise_date(
+                record["order_date"]
+            )
+
+            valid_records.append(transformed_record)
+        else:
             rejected_records.append({
                 "record": record,
                 "rejection_reasons": errors
             })
-        else:
-            valid_records.append(record)
+
 
     return valid_records, rejected_records

@@ -1,6 +1,11 @@
 from src.transform import validate_record, is_duplicate
 from src.extract import extract_sales_data
-from src.transform import transform_sales_data
+from src.transform import transform_sales_data, standardise_date
+
+def test_standardise_date():
+    assert standardise_date("2026-10-30") == "2026-10-30"
+
+    assert standardise_date("30/10/2026") == "2026-10-30"
 
 
 def test_valid_record():
@@ -73,7 +78,7 @@ def test_invalid_date():
 
     errors = validate_record(record)
 
-    assert "Order date must be a valid date in YYYY-MM-DD format" in errors
+    assert "Order date must be a valid and use an approved format" in errors
 
 
 def test_first_record_is_not_duplicate():
@@ -140,3 +145,26 @@ def test_multiple_validation_errors():
     assert "Missing customer_id" in errors
     assert "Quantity must be greater than zero" in errors
     assert "Unit price must be greater than zero" in errors
+
+def test_transform_standardises_dates():
+
+    record = {
+         "order_id": "2001",
+        "order_date": "30/10/2026",
+        "customer_id": "C020",
+        "product": "Laptop",
+        "category": "Electronics",
+        "quantity": "1",
+        "unit_price": "8500.00",
+        "city": "Cape Town"
+    }
+
+    valid_records, rejected_records = transform_sales_data([record])
+
+    assert len(valid_records) == 1
+    assert len(rejected_records) == 0
+
+    assert valid_records[0]["order_date"] == "2026-10-30"
+
+    #confirming original sources record was not modified
+    assert record["order_date"] == "30/10/2026"
